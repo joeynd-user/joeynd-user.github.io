@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airline Ticket Tax Comparison Tool</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 50px; /* Added padding at the bottom for scrolling */
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form, .currency-select {
+            margin-bottom: 20px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        input[type="button"] {
+            flex-grow: 1;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f2f2f2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 4px;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Airline Ticket Tax Comparison Tool</h1>
+        <div class="currency-select">
+            <label for="currencySelector">Select the currency for displaying the taxes:</label>
+            <select id="currencySelector">
+                <option value="GBP">GBP</option>
+                <option value="EUR">Euros</option>
+            </select>
+        </div>
+        <form id="taxForm">
+            <label for="originalTicket">Original Ticket:</label>
+            <input type="text" id="originalTicket" name="originalTicket" placeholder="e.g., 183.45XA27.90G2">
+            <label for="newTicket">New Ticket:</label>
+            <input type="text" id="newTicket" name="newTicket" placeholder="e.g., 190.50XA25.90G2">
+            <div class="button-container">
+                <input type="button" value="Compare Taxes" onclick="compareTaxes()">
+                <input type="button" value="Reset" onclick="resetForm()">
+            </div>
+        </form> 
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function cleanInput(ticket) {
+            ticket = ticket.replace(/[\s]+/g, ''); // Remove spaces
+            ticket = ticket.replace(/PD/g, ''); // Always remove 'PD'
+            return ticket.replace(/[^\dA-Z.]/gi, ''); // Remove non-numeric/non-letter characters
+        }
+
+        function extractTaxDetails(ticket) {
+            const regex = /(\d+\.\d+)([A-Z][A-Z0-9])/g;
+            let taxes = {};
+            let match;
+            let unrecognizedPatterns = [];
+            ticket = cleanInput(ticket);
+
+            while ((match = regex.exec(ticket)) !== null) {
+                taxes[match[2]] = parseFloat(match[1]);
+            }
+
+            let cleanedTicket = ticket.replace(regex, '');
+            if (cleanedTicket.length > 0) {
+                unrecognizedPatterns.push(cleanedTicket);
+            }
+
+            return { taxes, unrecognizedPatterns };
+        }
+
+        function compareTaxes() {
+            const currency = document.getElementById("currencySelector").value;
+            const currencySymbol = currency === "GBP" ? "£" : "€";
+            const originalTicket = document.getElementById("originalTicket").value;
+            const newTicket = document.getElementById("newTicket").value;
+
+            const originalData = extractTaxDetails(originalTicket);
+            const newData = extractTaxDetails(newTicket);
+
+            let totalIncreasedTax = 0;
+            let newTaxesTotal = 0;
+            let details = '';
+            let originalDetails = `Original Ticket Breakdown (in ${currency}):<br>`;
+            let newDetails = `New Ticket Breakdown (in ${currency}):<br>`;
+            let newTaxesDetails = 'New Taxes in New Ticket:<br>';
+            let warnings = '';
+
+            for (const [taxCode, amount] of Object.entries(originalData.taxes)) {
+                originalDetails += `<div class='section'>${taxCode}: ${currencySymbol}${amount.toFixed(2)}</div>`;
+            }
+
+            for (const [taxCode, amount] of Object.entries(newData.taxes)) {
+                newDetails += `<div class='section'>${taxCode}: ${currencySymbol}${amount.toFixed(2)}</div>`;
+                if (!originalData.taxes[taxCode]) {
+                    newTaxesTotal += amount;
+                    newTaxesDetails += `<div class='section'>${taxCode}: ${currencySymbol}${amount.toFixed(2)}</div>`;
+                } else if (amount > originalData.taxes[taxCode]) {
+                    let difference = amount - originalData.taxes[taxCode];
+                    totalIncreasedTax += difference;
+                    details += `<div class='section'>Tax code ${taxCode}: Increased by ${currencySymbol}${difference.toFixed(2)}</div>`;
+                }
+            }
+
+            if (originalData.unrecognizedPatterns.length > 0) {
+                warnings += `<div class='warning'>Warning: Unrecognized tax code in original ticket: ${originalData.unrecognizedPatterns.join(', ')}</div>`;
+            }
+
+            if (newData.unrecognizedPatterns.length > 0) {
+                warnings += `<div class='warning'>Warning: Unrecognized tax code in new ticket: ${newData.unrecognizedPatterns.join(', ')}</div>`;
+            }
+
+            let resultText = `${warnings}${originalDetails}<br>${newDetails}`;
+            if (newTaxesTotal > 0) {
+                resultText += `<br>${newTaxesDetails}Total New Taxes: ${currencySymbol}${newTaxesTotal.toFixed(2)}<br>`;
+            }
+            resultText += `<br>Total Increased Tax: ${currencySymbol}${(totalIncreasedTax + newTaxesTotal).toFixed(2)}<br>${details}`;
+            document.getElementById("result").innerHTML = resultText;
+        }
+
+        function resetForm() {
+            document.getElementById("originalTicket").value = '';
+            document.getElementById("newTicket").value = '';
+            document.getElementById("result").innerHTML = '';
+        }
+    </script>
+</body>
+</html>
