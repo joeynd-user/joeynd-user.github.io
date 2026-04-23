@@ -24,18 +24,24 @@
     --border: rgba(255, 255, 255, 0.08);
     --radius: 24px;
     --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    --mesh-1: #1e293b;
   }
+
+  /* Themes */
+  [data-theme="purple"] { --accent: #a855f7; --accent-glow: rgba(168, 85, 247, 0.3); --mesh-1: #3b0764; }
+  [data-theme="emerald"] { --accent: #10b981; --accent-glow: rgba(16, 185, 129, 0.3); --mesh-1: #064e3b; }
+  [data-theme="sunset"] { --accent: #f97316; --accent-glow: rgba(249, 115, 22, 0.3); --mesh-1: #431407; }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
-  body { background-color: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.5; overflow-x: hidden; }
+  body { background-color: var(--bg); color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif; line-height: 1.5; overflow-x: hidden; transition: background-color 0.5s ease; }
 
   .mesh-bg {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at 50% -20%, #1e293b 0%, transparent 50%),
+    background: radial-gradient(circle at 50% -20%, var(--mesh-1) 0%, transparent 50%),
                 radial-gradient(circle at 100% 100%, #0f172a 0%, transparent 50%);
-    z-index: -1; opacity: 0.4;
+    z-index: -1; opacity: 0.4; transition: background 0.8s ease;
   }
 
   /* --- Navigation --- */
@@ -72,10 +78,9 @@
 
   .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; width: 100%; }
   .hero-text h1 { font-family: 'Outfit', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem); font-weight: 900; line-height: 0.95; letter-spacing: -3px; margin-bottom: 1.5rem; }
-  .hero-text h1 span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+  .hero-text h1 span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); transition: 0.5s; }
   .hero-bio { font-size: 1.25rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2.5rem; }
 
-  /* Hero Buttons with Hover Effects */
   .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
   .pill-btn { padding: 1rem 1.8rem; border-radius: 100px; font-weight: 800; text-decoration: none; display: inline-flex; align-items: center; gap: 0.7rem; transition: var(--transition); font-size: 0.9rem; border: 1px solid var(--border); }
   
@@ -90,14 +95,14 @@
 
   /* --- Sections --- */
   section { padding: 80px 5%; max-width: 1400px; margin: 0 auto; }
-  .label { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; margin-bottom: 0.8rem; display: block; }
+  .label { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; margin-bottom: 0.8rem; display: block; transition: 0.3s; }
   .title { font-size: 3rem; font-weight: 900; margin-bottom: 3.5rem; letter-spacing: -1.5px; }
 
   /* --- Experience Rows --- */
   .row { display: grid; grid-template-columns: 220px 1fr 150px; padding: 2.5rem 0; border-top: 1px solid var(--border); transition: var(--transition); }
   .row:last-of-type { border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
   .row:hover { background: rgba(255,255,255,0.02); padding-left: 15px; }
-  .co { font-weight: 800; color: var(--accent); font-size: 1.15rem; }
+  .co { font-weight: 800; color: var(--accent); font-size: 1.15rem; transition: 0.3s; }
   .job h4 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
   .job p { color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin-bottom: 1rem; }
   .tag-container { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -114,7 +119,7 @@
   .card h3 { font-size: 1.7rem; font-weight: 800; margin-bottom: 1rem; }
   .card p { color: var(--text-muted); margin-bottom: 2rem; flex-grow: 1; font-size: 1.05rem; }
 
-  .grade-badge { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-weight: 900; font-size: 0.85rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+  .grade-badge { display: inline-block; background: var(--accent); color: white; padding: 6px 14px; border-radius: 6px; font-weight: 900; font-size: 0.85rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
 
   .badge { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; padding: 5px 12px; border-radius: 100px; border: 1px solid transparent; }
   .passion-badge { color: var(--accent); background: rgba(62, 99, 221, 0.1); border-color: rgba(62, 99, 221, 0.2); }
@@ -123,6 +128,19 @@
   .snazzy-link { display: inline-flex; align-items: center; gap: 0.8rem; text-decoration: none; color: var(--text-main); font-weight: 800; font-size: 0.95rem; transition: 0.3s; }
   .snazzy-link .arrow-circle { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
   .snazzy-link:hover .arrow-circle { background: var(--accent); transform: translateX(5px); }
+
+  /* Theme Switcher Styles */
+  .theme-box {
+    margin-top: 3rem; background: rgba(255,255,255,0.03); border: 1px dashed var(--border);
+    border-radius: var(--radius); padding: 2.5rem; display: flex; align-items: center;
+    justify-content: space-between; flex-wrap: wrap; gap: 2rem;
+  }
+  .theme-box h4 { font-weight: 900; font-size: 1.3rem; margin-bottom: 0.5rem; }
+  .theme-box p { color: var(--text-muted); font-size: 0.95rem; }
+  .swatch-container { display: flex; gap: 12px; }
+  .swatch { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.active { border-color: white; }
 
   /* --- Footer --- */
   .contact-footer { background: white; color: black; border-radius: 40px 40px 0 0; padding: 100px 5% 120px; text-align: center; margin-top: 60px; }
@@ -249,6 +267,19 @@
       <a href="ALBERT.jpg" target="_blank" class="snazzy-link">View BAFTA Certificate <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
     </div>
   </div>
+
+  <div class="theme-box">
+  <div>
+    <h4>I have a confession to make.</h4>
+    <p>I basically just brought you down here to distract you. I don’t know if you’re a recruiter who’s deep into a long day of hiring, or just a friend I’ve sent to peer-review one of the million changes I’ve made to this site this week. Either way, since you're here, you might as well have the option to change the vibe. Go ahead and pick a new colour, then keep scrolling.</p>
+  </div>
+  <div class="swatch-container">
+    <div class="swatch active" style="background: #3e63dd;" onclick="setTheme('default', this)" title="Midnight Blue"></div>
+    <div class="swatch" style="background: #a855f7;" onclick="setTheme('purple', this)" title="Cyber Purple"></div>
+    <div class="swatch" style="background: #10b981;" onclick="setTheme('emerald', this)" title="Forest Emerald"></div>
+    <div class="swatch" style="background: #f97316;" onclick="setTheme('sunset', this)" title="Sunset Orange"></div>
+  </div>
+</div>
 </section>
 
 <section id="projects">
@@ -318,12 +349,20 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
   
+  function setTheme(theme, el) {
+    if(theme === 'default') document.body.removeAttribute('data-theme');
+    else document.body.setAttribute('data-theme', theme);
+    
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+  }
+
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('mousemove', e => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      card.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(62, 99, 221, 0.1), transparent 40%), var(--card-bg)`;
+      card.style.background = `radial-gradient(600px circle at ${x}px ${y}px, var(--accent-glow), transparent 40%), var(--card-bg)`;
     });
     card.addEventListener('mouseleave', () => { card.style.background = `var(--card-bg)`; });
   });
