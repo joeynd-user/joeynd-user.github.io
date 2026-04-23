@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joseph Nunes-Dinerstein | Portfolio</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #030303;
+    --card-bg: #0a0a0c;
+    --accent: #3e63dd;
+    --accent-glow: rgba(62, 99, 221, 0.3);
+    --text-main: #ffffff;
+    --text-muted: #94949b;
+    --border: rgba(255, 255, 255, 0.08);
+    --radius: 24px;
+    --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  .mesh-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% -20%, #1e293b 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, #0f172a 0%, transparent 50%);
+    z-index: -1; opacity: 0.4;
+  }
+
+  /* --- Navigation --- */
+  nav {
+    position: fixed; top: 25px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 1200px; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.8rem 2.2rem; background: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 100px;
+  }
+  .nav-logo img { height: 32px; display: block; filter: brightness(1.2); }
+  
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+  .nav-links a { 
+    text-decoration: none; color: var(--text-muted); font-weight: 800; font-size: 0.95rem; 
+    text-transform: uppercase; transition: 0.3s; letter-spacing: 1.2px; 
+  }
+  .nav-links a:hover { color: var(--text-main); }
+  
+  .nav-cv-btn {
+    text-decoration: none; color: #ffffff !important; background: var(--accent); 
+    padding: 0.7rem 1.6rem; border-radius: 100px; font-weight: 800; font-size: 0.85rem;
+    display: flex; align-items: center; gap: 8px; transition: var(--transition);
+  }
+  .nav-cv-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px var(--accent-glow); }
+
+  /* --- Hero --- */
+  #hero {
+    min-height: 85vh; display: flex; align-items: center; padding: 140px 5% 40px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; width: 100%; }
+  .hero-text h1 {
+    font-family: 'Outfit', sans-serif; font-size: clamp(3.5rem, 8vw, 6rem);
+    font-weight: 900; line-height: 0.95; letter-spacing: -3px; margin-bottom: 1.5rem;
+  }
+  .hero-text h1 span { color: var(--accent); text-shadow: 0 0 30px var(--accent-glow); }
+  .hero-bio { font-size: 1.25rem; color: var(--text-muted); max-width: 620px; margin-bottom: 2.5rem; }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .pill-btn {
+    padding: 1rem 1.8rem; border-radius: 100px; font-weight: 800; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.7rem; transition: var(--transition); font-size: 0.9rem;
+    border: 1px solid var(--border);
+  }
+  .btn-white { background: white; color: black; }
+  .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255,255,255,0.15); }
+  .btn-dark { background: rgba(255,255,255,0.05); color: white; }
+  .btn-dark:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-3px); color: white; }
+
+  .hero-img-wrap {
+    height: 520px; border-radius: var(--radius); overflow: hidden;
+    border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* --- Timeline & Tags --- */
+  section { padding: 80px 5%; max-width: 1400px; margin: 0 auto; }
+  .label { color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; font-size: 0.75rem; margin-bottom: 0.8rem; display: block; }
+  .title { font-size: 3rem; font-weight: 900; margin-bottom: 3.5rem; letter-spacing: -1.5px; }
+
+  .row { display: grid; grid-template-columns: 220px 1fr 150px; padding: 2.5rem 0; border-top: 1px solid var(--border); transition: var(--transition); }
+  .row:last-of-type { border-bottom: 1px solid var(--border); }
+  .row:hover { background: rgba(255,255,255,0.02); padding-left: 15px; }
+  .co { font-weight: 800; color: var(--accent); font-size: 1.15rem; }
+  .job h4 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+  .job p { color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin-bottom: 1rem; }
+  .date { text-align: right; color: var(--text-muted); font-weight: 700; }
+
+  .tag-container { display: flex; gap: 8px; flex-wrap: wrap; }
+  .exp-tag {
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+    padding: 4px 10px; border-radius: 4px; background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border); color: var(--text-muted);
+  }
+
+  /* --- Bento Cards --- */
+  .bento { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 2.8rem; display: flex; flex-direction: column; justify-content: space-between;
+    transition: var(--transition); position: relative; overflow: hidden;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+  .card h3 { font-size: 1.7rem; font-weight: 800; margin-bottom: 1rem; }
+  .card p { color: var(--text-muted); margin-bottom: 2rem; flex-grow: 1; font-size: 1.05rem; }
+
+  .grade-badge {
+    display: inline-block; background: var(--accent); color: white;
+    padding: 6px 14px; border-radius: 6px; font-weight: 900; font-size: 0.85rem;
+    margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;
+  }
+
+  .passion-badge {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 1.5px; color: var(--accent); background: rgba(62, 99, 221, 0.1);
+    padding: 5px 12px; border-radius: 100px; border: 1px solid rgba(62, 99, 221, 0.2);
+  }
+
+  .snazzy-link {
+    display: inline-flex; align-items: center; gap: 0.8rem; text-decoration: none;
+    color: var(--text-main); font-weight: 800; font-size: 0.95rem; transition: 0.3s;
+  }
+  .snazzy-link .arrow-circle {
+    width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.05);
+    display: flex; align-items: center; justify-content: center; transition: 0.3s;
+  }
+  .snazzy-link:hover .arrow-circle { background: var(--accent); transform: translateX(5px); }
+
+  /* --- Footer --- */
+  .contact-footer {
+    background: white; color: black; border-radius: 40px 40px 0 0;
+    padding: 100px 5% 120px; text-align: center; margin-top: 60px;
+  }
+  .contact-footer h2 { font-size: clamp(3.5rem, 10vw, 7.5rem); font-weight: 900; line-height: 0.9; margin-bottom: 2rem; letter-spacing: -4px; }
+  .contact-footer p { font-size: 1.25rem; max-width: 600px; margin: 0 auto 4rem; font-weight: 600; color: #333; line-height: 1.4; }
+
+  .footer-links { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; margin-top: 2rem; }
+  .f-pill {
+    padding: 1.2rem 2.2rem; border-radius: 100px; background: black; color: white;
+    text-decoration: none; font-weight: 800; transition: var(--transition);
+    display: inline-flex; align-items: center; gap: 0.8rem; font-size: 1rem;
+  }
+  .f-pill:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); color: white; }
+
+  @media (max-width: 950px) {
+    .hero-grid, .bento, .row { grid-template-columns: 1fr; }
+    .hero-img-wrap, .nav-links { display: none; }
+    .hero-text { text-align: center; }
+    .hero-btns, .footer-links { justify-content: center; }
+    .date { text-align: left; margin-top: 5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mesh-bg"></div>
+
+<nav>
+  <div class="nav-logo"><img src="logo.png" alt="JN"></div>
+  <div class="nav-links">
+    <a href="#experience">Experience</a>
+    <a href="#education">Education</a>
+    <a href="#projects">Work</a>
+    <a href="CV.pdf" target="_blank" class="nav-cv-btn"><i class="fas fa-file-pdf"></i> VIEW CV</a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <span class="label">Based in London</span>
+      <h1>Joseph<br><span>Nunes-Dinerstein</span></h1>
+      <p class="hero-bio">A <strong>tech-savvy professional</strong> specializing in digital systems and operational efficiency. Expert at mastering complex workflows and delivering technical solutions under pressure.</p>
+      <div class="hero-btns">
+        <a href="mailto:joeyndmedia@gmail.com" target="_blank" class="pill-btn btn-white"><i class="fas fa-envelope"></i> Email Me</a>
+        <a href="https://www.linkedin.com/in/josephnunesdinerstein/" target="_blank" class="pill-btn btn-dark"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        <a href="CV.pdf" target="_blank" class="pill-btn btn-dark"><i class="fas fa-file-pdf"></i> View CV</a>
+      </div>
+    </div>
+    <div class="hero-img-wrap"><img src="photo.jpg" alt="Joseph"></div>
+  </div>
+</section>
+
+<section id="experience">
+  <span class="label">Professional History</span>
+  <h2 class="title">Work Experience</h2>
+  
+  <div class="row">
+    <div class="co">Trailfinders</div>
+    <div class="job">
+      <h4>Connectivity Analyst</h4>
+      <p>Managing API data integrity and troubleshooting XML integration logic across international travel suppliers. Technical bridge between supplier systems and internal operations.</p>
+      <div class="tag-container">
+        <span class="exp-tag">API Connectivity</span>
+        <span class="exp-tag">XML Logic</span>
+      </div>
+    </div>
+    <div class="date">2024 — 2025</div>
+  </div>
+
+  <div class="row">
+    <div class="co">Trailfinders</div>
+    <div class="job">
+      <h4>Operations Support Consultant</h4>
+      <p>Logistical management of flight ticketing and complex pricing structures using GDS platforms (Galileo/Amadeus). Solving high-pressure logistical hurdles.</p>
+      <div class="tag-container">
+        <span class="exp-tag">GDS Systems</span>
+        <span class="exp-tag">Operations</span>
+      </div>
+    </div>
+    <div class="date">2023 — 2024</div>
+  </div>
+
+  <div class="row">
+    <div class="co">UEA</div>
+    <div class="job">
+      <h4>Student Representative</h4>
+      <p>Coordinated technical and logistical communication between students and faculty within the Media and Marketing departments.</p>
+      <div class="tag-container">
+        <span class="exp-tag">Leadership</span>
+      </div>
+    </div>
+    <div class="date">2019 — 2021</div>
+  </div>
+</section>
+
+<section id="education">
+  <span class="label">Academic Background</span>
+  <h2 class="title">Education</h2>
+  <div class="bento">
+    <div class="card">
+      <h3>MSc Marketing</h3>
+      <p>University of East Anglia | 2022 — 2023<br>
+        <span class="grade-badge">Distinction (1st Class Honors)</span>
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>BA Media Studies</h3>
+      <p>University of East Anglia | 2019 — 2022<br><strong>Graduated with 2:1 Honours</strong></p>
+    </div>
+    
+    <div class="card" style="grid-column: span 2;">
+      <div>
+        <h3>BAFTA ALBERT Graduate</h3>
+        <p>Completed the <strong>Applied Skills for a Sustainable Media Industry</strong> module, focusing on carbon-neutral media production and sustainable industry practices.</p>
+      </div>
+      <a href="ALBERT.jpg" target="_blank" class="snazzy-link">View BAFTA Certificate <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <span class="label">Passion Projects & Technical Interests</span>
+  <h2 class="title">Portfolio</h2>
+  <div class="bento">
+    <div class="card">
+      <div>
+        <h3>Airline Tax Tool</h3>
+        <p>A custom automation tool designed to cross-reference and simplify airline tax data for faster operational processing.</p>
+      </div>
+      <a href="AIRLINE TAX TOOL 2.html" target="_blank" class="snazzy-link">Launch Project <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
+    </div>
+
+    <div class="card">
+      <span class="passion-badge">Passion Project</span>
+      <div>
+        <h3>Website Optimization</h3>
+        <p>Having some fun learning new coding skills and the fundamentals of web development through the freeCodeCamp beginner track.</p>
+      </div>
+      <a href="https://www.freecodecamp.org/" target="_blank" class="snazzy-link">View Course <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>'Living With Loss' Podcast</h3>
+        <p>Technical lead for audio engineering and video post-production. Managed the pipeline from raw capture to YouTube/Spotify distribution.</p>
+      </div>
+      <a href="https://www.youtube.com/watch?v=_DOA1hYM4SA&list=PLs9BebSRAXLk-2onI5UAhIpQIomCsSN4E" target="_blank" class="snazzy-link">Watch on YouTube <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Music Production</h3>
+        <p>Independent production and digital distribution via Distrokid, managing releases across all major streaming platforms.</p>
+      </div>
+      <a href="https://distrokid.com/hyperfollow/joeynunes/dmGk" target="_blank" class="snazzy-link">Listen Now <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
+    </div>
+
+    <div class="card">
+      <div>
+        <h3>Football Talent Identification</h3>
+        <p>As a passionate (and often suffering) Chelsea fan, I completed this <strong>FA Learning</strong> course to better understand scouting, analytics, and recruitment mechanics.</p>
+      </div>
+      <a href="TALENT.jpg" target="_blank" class="snazzy-link">View FA Certificate <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
+    </div>
+
+    <div class="card">
+      <span class="passion-badge">Passion Project</span>
+      <h3>Hardware Architecture</h3>
+      <p>I’m a total enthusiast for PC architecture. I love researching part compatibility, staying up to date with new hardware releases, and I’m always looking for any excuse to build or upgrade a system for peak performance.</p>
+    </div>
+  </div>
+</section>
+
+<div class="contact-footer">
+  <h2>Get in touch.</h2>
+  <p>I'm currently open to new opportunities and professional connections in London. Please feel free to reach out via email or LinkedIn.</p>
+  <div class="footer-links">
+    <a href="mailto:joeyndmedia@gmail.com" target="_blank" class="f-pill"><i class="fas fa-envelope"></i> Email Joseph</a>
+    <a href="https://www.linkedin.com/in/josephnunesdinerstein/" target="_blank" class="f-pill" style="background: #0077b5;"><i class="fab fa-linkedin"></i> LinkedIn</a>
+    <a href="CV.pdf" target="_blank" class="f-pill" style="background: #333;"><i class="fas fa-file-pdf"></i> View CV</a>
+  </div>
+  <p style="margin-top: 6rem; opacity: 0.3; font-size: 0.8rem; color: black;">Joseph Nunes-Dinerstein &copy; <span id="year"></span></p>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(62, 99, 221, 0.1), transparent 40%), var(--card-bg)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.background = `var(--card-bg)`; });
+  });
+</script>
+</body>
+</html>
