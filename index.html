@@ -150,11 +150,41 @@
   .f-pill { padding: 1.2rem 2.2rem; border-radius: 100px; background: black; color: white; text-decoration: none; font-weight: 800; transition: var(--transition); display: inline-flex; align-items: center; gap: 0.8rem; font-size: 1rem; }
   .f-pill:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
+  /* FIXES FOR MOBILE */
   @media (max-width: 950px) {
-    .hero-grid, .bento, .row { grid-template-columns: 1fr; }
-    .hero-img-wrap, .nav-links, .self-build-badge { display: none; }
-    .hero-text { text-align: center; }
-    .date { text-align: left; margin-top: 5px; }
+    nav { padding: 0.6rem 1.2rem; top: 15px; width: 95%; }
+    .nav-links { display: none; } /* Simplified for mobile to avoid overlap */
+    
+    #hero { padding-top: 100px; text-align: center; min-height: auto; }
+    .hero-grid { grid-template-columns: 1fr; gap: 30px; }
+    
+    .hero-img-wrap { 
+      display: block; /* Bring back the photo! */
+      height: 350px; 
+      width: 100%; 
+      max-width: 400px; 
+      margin: 0 auto; 
+      order: -1; /* Photo first on mobile */
+    }
+    
+    .hero-text h1 { font-size: 3rem; letter-spacing: -1px; }
+    .hero-btns { justify-content: center; }
+    
+    .self-build-badge { display: none; } /* Too cluttered on small screens */
+    
+    .title { font-size: 2.2rem; margin-bottom: 2rem; }
+    
+    .row { grid-template-columns: 1fr; padding: 1.5rem 0; gap: 10px; }
+    .date { text-align: left; opacity: 0.6; font-size: 0.9rem; }
+    
+    .bento { grid-template-columns: 1fr; }
+    .card { padding: 1.8rem; }
+    .card h3 { font-size: 1.4rem; }
+    
+    .theme-box { flex-direction: column; text-align: center; padding: 1.5rem; }
+    .swatch-container { justify-content: center; }
+
+    .contact-footer h2 { font-size: 3rem; letter-spacing: -1px; }
   }
 </style>
 </head>
@@ -259,7 +289,7 @@
       <p>University of East Anglia | 2019 — 2022<br><strong>Graduated with 2:1 Honours</strong></p>
     </div>
     
-    <div class="card" style="grid-column: span 2;">
+    <div class="card" style="grid-column: span 1;">
       <div>
         <h3>BAFTA ALBERT Graduate</h3>
         <p>Completed the <strong>Applied Skills for a Sustainable Media Industry</strong> module, focusing on carbon-neutral media production and sustainable industry practices.</p>
