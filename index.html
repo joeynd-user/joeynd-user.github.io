@@ -444,15 +444,16 @@
     card.addEventListener('mouseleave', () => { card.style.background = `var(--card-bg)`; });
   });
   async function getHits() {
-    try {
-      const res = await fetch('https://api.countapi.xyz/hit/josephnunes.com/visits');
-      const data = await res.json();
-      document.getElementById('count').innerText = data.value.toLocaleString();
-    } catch (error) {
-      document.getElementById('count').innerText = "ONLINE";
-    }
+  try {
+    const res = await fetch('https://api.mojolly.com/hit/josephnunes.com/visits');
+    const data = await res.json();
+    document.getElementById('count').innerText = data.value.toLocaleString();
+  } catch (error) {
+    document.getElementById('count').innerText = "ONLINE";
+    console.log("Counter API currently unreachable.");
   }
-  getHits();
+}
+getHits();
 </script>
 </body>
 </html>
