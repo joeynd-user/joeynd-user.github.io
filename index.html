@@ -133,9 +133,9 @@
   .card-content-front { transition: var(--transition); }
   .spec-card:hover .card-content-front { opacity: 0; transform: translateY(-10px); }
   .spec-card:hover .card-content-back { opacity: 1; transform: translateY(0); }
-  .spec-list { list-style: none; font-family: 'Courier New', monospace; font-size: 0.85rem; font-weight: 600; }
+  .spec-list { list-style: none; font-size: 0.9rem; }
   .spec-list li { margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 5px; color: var(--text-muted); }
-  .spec-list li strong { color: var(--accent); }
+  .spec-list li strong { color: var(--accent); font-weight: 800; }
   /* Theme Switcher Styles */
   .theme-box {
     margin-top: 3rem; background: rgba(255,255,255,0.03); border: 1px dashed var(--border);
@@ -368,19 +368,21 @@
 
     <div class="card spec-card">
       <span class="badge passion-badge">Passion Project</span>
-        <div class="card-content-front">
-          <h3>PC Hardware</h3>
-          <p>I’m a total enthusiast for PC architecture. I love researching part compatibility and building/upgrading systems for peak performance.</p>
+      
+      <div class="card-content-front">
+        <h3>PC Hardware</h3>
+        <p>I’m a total enthusiast for PC architecture. I love researching part compatibility and building/upgrading systems for peak performance.</p>
+        <a class="snazzy-link" style="margin-top: auto;">Hover for current build specs <div class="arrow-circle"><i class="fas fa-arrow-right"></i></div></a>
       </div>
+    
       <div class="card-content-back">
-      <h3 style="color: var(--accent); font-size: 0.9rem; margin-bottom: 1.2rem; letter-spacing: 2px;">// SYSTEM_SPEC_v2.0</h3>
+        <h3 style="color: var(--accent); font-size: 0.9rem; margin-bottom: 1.2rem; letter-spacing: 2px;">SYSTEM SPECS</h3>
         <ul class="spec-list">
           <li><strong>CPU:</strong> AMD Ryzen 7 9800X3D</li>
           <li><strong>GPU:</strong> NVIDIA RTX 4090</li>
           <li><strong>RAM:</strong> 32GB DDR5 6200MHz</li>
           <li><strong>CASE:</strong> Lian Li O11D EVO RGB</li>
         </ul>
-        <p style="font-size: 0.7rem; margin-top: 1.2rem; opacity: 0.4; font-family: monospace;">STATUS: OPTIMIZED_FOR_ULTRA</p>
       </div>
     </div>
 
