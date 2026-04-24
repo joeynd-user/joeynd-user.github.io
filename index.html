@@ -424,58 +424,69 @@
 </div>
 
 <script>
-  document.querySelectorAll('.magnetic-wrap').forEach(w => { const b = w.querySelector('a'); w.addEventListener('mousemove', e => { const r = w.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.3}px, ${(e.clientY - r.top - r.height/2) * 0.3}px)`; }); w.addEventListener('mouseleave', () => b.style.transform = 'translate(0,0)'); });
-  document.getElementById('year').textContent = new Date().getFullYear();
-  
-  function setTheme(theme, el) {
+  document.querySelectorAll('.magnetic-wrap').forEach(w => { 
+    const b = w.querySelector('a'); 
+    w.addEventListener('mousemove', e => { 
+        const r = w.getBoundingClientRect(); 
+        b.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.3}px, ${(e.clientY - r.top - r.height/2) * 0.3}px)`; 
+    }); 
+    w.addEventListener('mouseleave', () => b.style.transform = 'translate(0,0)'); 
+});
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function setTheme(theme, el) {
     if(theme === 'default') document.body.removeAttribute('data-theme');
     else document.body.setAttribute('data-theme', theme);
-    
     document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
     el.classList.add('active');
-  }
-
-  document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.background = `radial-gradient(600px circle at ${x}px ${y}px, var(--accent-glow), transparent 40%), var(--card-bg)`;
-    });
-    card.addEventListener('mouseleave', () => { card.style.background = `var(--card-bg)`; });
-  });
- let currentHits = parseInt(localStorage.getItem('savedCount')) || 1402;
-
-function simulateHits() {
-    const countElement = document.getElementById('count');
-    countElement.innerText = currentHits.toLocaleString();
-
-    if (Math.random() > 0.90) {
-        const increment = Math.floor(Math.random() * 2) + 1;
-        currentHits += increment;
-        localStorage.setItem('savedCount', currentHits);
-
-        countElement.style.transform = 'translateY(-20px)';
-        countElement.style.opacity = '0';
-
-        setTimeout(() => {
-            countElement.style.transition = 'none';
-            countElement.style.transform = 'translateY(20px)';
-            countElement.innerText = currentHits.toLocaleString();
-
-            setTimeout(() => {
-                countElement.style.transition = 'transform 0.6s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.6s';
-                countElement.style.transform = 'translateY(0)';
-                countElement.style.opacity = '1';
-            }, 50);
-        }, 600);
-    }
-
-    const nextCheck = Math.floor(Math.random() * 300000) + 300000;
-    setTimeout(simulateHits, nextCheck);
 }
 
-simulateHits();
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.background = `radial-gradient(600px circle at ${x}px ${y}px, var(--accent-glow), transparent 40%), var(--card-bg)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.background = `var(--card-bg)`; });
+});
+
+let currentHits = parseInt(localStorage.getItem('savedCount')) || 1402;
+let hasTickedThisSession = false;
+
+function animateHitCount() {
+    const countElement = document.getElementById('count');
+    countElement.style.transform = 'translateY(-20px)';
+    countElement.style.opacity = '0';
+
+    setTimeout(() => {
+        countElement.style.transition = 'none';
+        countElement.style.transform = 'translateY(20px)';
+        countElement.innerText = currentHits.toLocaleString();
+
+        setTimeout(() => {
+            countElement.style.transition = 'transform 0.6s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.6s';
+            countElement.style.transform = 'translateY(0)';
+            countElement.style.opacity = '1';
+        }, 50);
+    }, 600);
+}
+
+document.getElementById('count').innerText = currentHits.toLocaleString();
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !hasTickedThisSession) {
+            hasTickedThisSession = true;
+            currentHits += 1;
+            localStorage.setItem('savedCount', currentHits);
+            setTimeout(animateHitCount, 500); 
+        }
+    });
+}, { threshold: 0.5 });
+
+observer.observe(document.querySelector('.hit-counter'));
 </script>
 </body>
 </html>
