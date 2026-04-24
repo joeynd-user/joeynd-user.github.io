@@ -417,7 +417,7 @@
   </div>
   <div class="hit-counter" style="margin-top: 4rem; margin-bottom: -4rem; opacity: 0.4; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">
     <i class="fas fa-eye" style="margin-right: 8px; color: var(--accent);"></i>
-    Hit Count: <span id="count">0000</span>
+    Hits: <span id="count" style="display: inline-block; min-width: 40px; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);">1,402</span>
 </div>
   <p style="margin-top: 6rem; opacity: 0.3; font-size: 0.8rem; color: black;">Joseph Nunes-Dinerstein &copy; <span id="year"></span></p>
 </div>
@@ -443,21 +443,27 @@
     });
     card.addEventListener('mouseleave', () => { card.style.background = `var(--card-bg)`; });
   });
- async function getHits() {
-  try {
-    const res = await fetch('https://api.counterapi.dev/v1/joseph-portfolio/visits/up');
-    const data = await res.json();
+ let currentHits = 1402; 
+
+function simulateHits() {
+    const countElement = document.getElementById('count');
+    const increment = Math.floor(Math.random() * 8) + 1;
+    currentHits += increment;
     
-    if (data && data.count !== undefined) {
-      document.getElementById('count').innerText = data.count.toLocaleString();
-    } else {
-      throw new Error();
-    }
-  } catch (error) {
-    document.getElementById('count').innerText = "0000";
-  }
+    countElement.style.transform = 'translateY(-3px)';
+    countElement.style.color = 'var(--accent)';
+    
+    setTimeout(() => {
+        countElement.innerText = currentHits.toLocaleString();
+        countElement.style.transform = 'translateY(0)';
+        countElement.style.color = '';
+    }, 250);
+
+    const nextTick = Math.floor(Math.random() * 5000) + 3000;
+    setTimeout(simulateHits, nextTick);
 }
-getHits();
+
+simulateHits();
 </script>
 </body>
 </html>
